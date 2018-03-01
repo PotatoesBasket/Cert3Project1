@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour {
     public float maxLifeTime = 2.0f;
     public float maxDamage = 34.0f;
     public float explosionRadius = 5.0f;
-    public float explosionForce = 100f;
+    public float explosionForce = 500f;
 
     public ParticleSystem explosionParticles;
 
@@ -21,12 +21,13 @@ public class Bullet : MonoBehaviour {
 
         if(targetRigidbody != null)
         {
-            //do later i guess
+            targetRigidbody.AddExplosionForce(explosionForce, transform.position, explosionRadius);
         }
 
         TankHealth health = other.gameObject.GetComponent<TankHealth>();
         if (health!= null)
         {
+            float damage = CalculateDamage(targetRigidbody.position);
             health.TakeDamage(maxDamage);
         }
 
@@ -35,5 +36,17 @@ public class Bullet : MonoBehaviour {
 
         Destroy(explosionParticles.gameObject, explosionParticles.main.duration);
         Destroy(gameObject);
+    }
+
+    private float CalculateDamage(Vector3 targetPosition)
+    {
+        Vector3 explosionToTarget = targetPosition - transform.position;
+
+        float explosionDistance = explosionToTarget.magnitude;
+        float relativeDistance = (explosionRadius - explosionDistance) / explosionRadius;
+        float damage = relativeDistance * maxDamage;
+        damage = Mathf.Max(0f, damage);
+
+        return damage;
     }
 }

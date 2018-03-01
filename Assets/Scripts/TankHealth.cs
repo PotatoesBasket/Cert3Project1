@@ -11,7 +11,12 @@ public class TankHealth : MonoBehaviour {
     public GameObject explosionPrefab;
     private ParticleSystem explosionParticles;
 
-    void Awake()
+    private void Awake()
+    {
+        Initialise();
+    }
+
+    private void Initialise()
     {
         currentHealth = startHealth;
         isDead = false;
@@ -39,5 +44,17 @@ public class TankHealth : MonoBehaviour {
         explosionParticles.Play();
 
         gameObject.SetActive(false);
+
+        if (tag != "Player")
+        {
+            GameObject spawnPoint = GameObject.Find("EnemyBase");
+
+            if (spawnPoint != null)
+            {
+                transform.position = spawnPoint.transform.position;
+                Initialise();
+                gameObject.SetActive(true);
+            }
+        }
     }
 }
