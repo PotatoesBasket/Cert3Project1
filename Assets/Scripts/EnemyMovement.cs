@@ -6,42 +6,61 @@ using UnityEngine.AI;
 public class EnemyMovement : MonoBehaviour {
 
     public float stopDistance = 8.0f;
+    private bool follow = false;
 
-    public Transform m_turret;
+    public Transform turret;
+    private GameObject player = null;
+    //private GameObject enemyBase = null;
+    private NavMeshAgent navAgent;
 
-    private GameObject m_player = null;
-    private GameObject m_base = null;
-    private NavMeshAgent m_navAgent;
+    public GameObject[] waypoints;
+    private int currentWaypoint = 0;
 
-    private bool m_follow = false;
-
-    // Use this for initialization
     void Start () {
-        m_base = GameObject.FindGameObjectWithTag("EnemyBase");
-        m_navAgent = GetComponent<NavMeshAgent>();
-        m_follow = false;
+        //enemyBase = GameObject.FindGameObjectWithTag("EnemyBase");
+        navAgent = GetComponent<NavMeshAgent>();
+        follow = false;
 	}
 	
-	// Update is called once per frame
 	void Update () {
-        if (m_follow == true)
+        if (follow == true)
         {
-            float distance = (m_player.transform.position - transform.position).magnitude;
+            float distance = (player.transform.position - transform.position).magnitude;
 
             if (distance > stopDistance)
             {
-                m_navAgent.SetDestination(m_player.transform.position);
-                m_navAgent.isStopped = false;
+                navAgent.SetDestination(player.transform.position);
+                navAgent.isStopped = false;
             }
             else
             {
-                m_navAgent.isStopped = true;
+                navAgent.isStopped = true;
+            }
+
+            if (turret != null)
+            {
+                turret.LookAt(player.transform);
             }
         }
-
         else
         {
-            m_navAgent.SetDestination(m_base.transform.position);
+            if (navAgent.remainingDistance < 0.1f)
+            {
+                if (waypoints != null)
+                {
+                    currentWaypoint += 1;
+                    if (currentWaypoint >= waypoints.Length)
+                    {
+                        currentWaypoint = 0;
+                    }
+
+                    if (waypoints[currentWaypoint] != null)
+                    {
+                        GameObject nextWaypoint = waypoints[currentWaypoint];
+                        navAgent.SetDestination(nextWaypoint.transform.position);
+                    }
+                }
+            }
         }
     }
 
@@ -49,8 +68,8 @@ public class EnemyMovement : MonoBehaviour {
     {
         if(other.tag.Equals("Player") == true)
         {
-            m_player = other.gameObject;
-            m_follow = true;
+            player = other.gameObject;
+            follow = true;
         }
     }
 
@@ -58,7 +77,15 @@ public class EnemyMovement : MonoBehaviour {
     {
         if (other.tag.Equals("Player") == true)
         {
-            m_follow = false;
+            follow = false;
+            navAgent.isStopped = true;
+
+            if (waypoints != null && waypoints[currentWaypoint] != null)
+            {
+                GameObject nextWaypoint = waypoints[currentWaypoint];
+                navAgent.isStopped = false;
+                navAgent.SetDestination(nextWaypoint.transform.position);
+            }
         }
     }
 }
