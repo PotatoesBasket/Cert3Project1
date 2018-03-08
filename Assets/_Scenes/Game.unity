@@ -1246,6 +1246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 798748474}
   - component: {fileID: 798748473}
+  - component: {fileID: 798748475}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1267,6 +1268,7 @@ MonoBehaviour:
   tanks:
   - {fileID: 1304580076}
   - {fileID: 872373996}
+  highScores: {fileID: 798748475}
   messageText: {fileID: 1840431227}
   timerText: {fileID: 874193442}
 --- !u!4 &798748474
@@ -1282,6 +1284,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &798748475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 798748472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 305dc77f706a0194ba4854f57aab37f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scores: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  scoreFileName: highscores.txt
 --- !u!1 &822975514
 GameObject:
   m_ObjectHideFlags: 0
@@ -2318,6 +2333,7 @@ GameObject:
   - component: {fileID: 1304580078}
   - component: {fileID: 1304580077}
   - component: {fileID: 1304580081}
+  - component: {fileID: 1304580082}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Player
@@ -2398,6 +2414,19 @@ MonoBehaviour:
     type: 2}
   fireTransform: {fileID: 603320138}
   launchForce: 30
+--- !u!114 &1304580082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1304580076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ede86c14d673b4a4b82ec928e8a62cca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 100
+  explosionPrefab: {fileID: 122668, guid: 5f53e2b760f0b2a4c8b27bb6f25b3c90, type: 2}
 --- !u!1 &1319479785
 GameObject:
   m_ObjectHideFlags: 0
@@ -3476,7 +3505,7 @@ Prefab:
     - target: {fileID: 135774146660985562, guid: 3543a70e28c24354a9395751d5a9eebc,
         type: 2}
       propertyPath: m_Radius
-      value: 1
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3543a70e28c24354a9395751d5a9eebc, type: 2}

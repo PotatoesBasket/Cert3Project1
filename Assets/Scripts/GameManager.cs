@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     private float gameTime = 0;
     public float GameTime { get { return gameTime; } }
 
+    public HighScores highScores;
     public Text messageText;
     public Text timerText;
 
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour {
 		switch(gameState)
         {
             case GameState.Start:
-                if (Input.GetKeyUp(KeyCode.Return) == true)
+                if (Input.GetKeyUp(KeyCode.Mouse0) == true)
                 {
                     timerText.gameObject.SetActive(true);
                     messageText.text = "";
@@ -84,12 +85,24 @@ public class GameManager : MonoBehaviour {
                     else
                     {
                         messageText.text = "WINNER!";
+
+                        highScores.AddScore(Mathf.RoundToInt(gameTime));
+                        highScores.SaveScoresToFile();
                     }
                 }
+
+                ///*
+                if (Input.GetKeyUp(KeyCode.P) == true)
+                {
+                    highScores.AddScore(Mathf.RoundToInt(gameTime));
+                    highScores.SaveScoresToFile();
+                }
+                //*/
+
                 break;
 
             case GameState.GameOver:
-                if (Input.GetKeyUp(KeyCode.Return) == true)
+                if (Input.GetKeyUp(KeyCode.Mouse0) == true)
                 {
                     gameTime = 0;
                     gameState = GameState.Game;
