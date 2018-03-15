@@ -7,18 +7,11 @@ public class TankShooting : MonoBehaviour {
     public GameObject shellPrefab;
     public Transform fireTransform;
     public float launchForce = 30f;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		if (Input.GetButtonDown("Fire1"))
-        {
             Fire();
-        }
 	}
 
     private void Fire()

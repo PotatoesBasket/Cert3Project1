@@ -11,7 +11,8 @@ public class Bullet : MonoBehaviour {
 
     public ParticleSystem explosionParticles;
 
-	void Start () {
+	void Start ()
+    {
         Destroy(gameObject, maxLifeTime);
 	}
 	
@@ -38,7 +39,7 @@ public class Bullet : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    private float CalculateDamage(Vector3 targetPosition)
+    private float CalculateDamage(Vector3 targetPosition) //Returns calculated damage as a float.
     {
         Vector3 explosionToTarget = targetPosition - transform.position;
 

@@ -16,7 +16,7 @@ public class TankHealth : MonoBehaviour {
         Initialise();
     }
 
-    private void Initialise()
+    public void Initialise() //Resets tank health, sets isDead false, deactivates explosion.
     {
         currentHealth = startHealth;
         isDead = false;
@@ -25,7 +25,7 @@ public class TankHealth : MonoBehaviour {
         explosionParticles.gameObject.SetActive(false);
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount) //Minuses damage from currentHealth, checks if tank should be dead.
     {
         currentHealth -= amount;
 
@@ -35,7 +35,7 @@ public class TankHealth : MonoBehaviour {
         }
     }
 
-    private void OnDeath()
+    private void OnDeath() //Sets isDead true, makes an explosion, deactivates tank.
     {
         isDead = true;
 
@@ -44,17 +44,5 @@ public class TankHealth : MonoBehaviour {
         explosionParticles.Play();
 
         gameObject.SetActive(false);
-
-        if (tag != "Player")
-        {
-            GameObject spawnPoint = GameObject.Find("EnemyBase");
-
-            if (spawnPoint != null)
-            {
-                transform.position = spawnPoint.transform.position;
-                Initialise();
-                gameObject.SetActive(true);
-            }
-        }
     }
 }

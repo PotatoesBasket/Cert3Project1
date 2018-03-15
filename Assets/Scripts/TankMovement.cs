@@ -11,10 +11,9 @@ public class TankMovement : MonoBehaviour {
     private float movementInput;
     private float turnInput;
 
-	// Use this for initialization
-	void Awake () {
+	void Awake ()
+    {
 		rigid = GetComponent<Rigidbody>();
-        Cursor.visible = false;
 	}
 
     private void OnEnable ()
@@ -29,8 +28,8 @@ public class TankMovement : MonoBehaviour {
         rigid.isKinematic = true;
     }
 
-    // Update is called once per frame
-    void Update () {
+    void Update ()
+    {
         movementInput = Input.GetAxis("Vertical");
         turnInput = Input.GetAxis("Horizontal");
 	}

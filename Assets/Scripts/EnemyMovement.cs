@@ -10,19 +10,19 @@ public class EnemyMovement : MonoBehaviour {
 
     public Transform turret;
     private GameObject player = null;
-    //private GameObject enemyBase = null;
     private NavMeshAgent navAgent;
 
     public GameObject[] waypoints;
     private int currentWaypoint = 0;
 
-    void Start () {
-        //enemyBase = GameObject.FindGameObjectWithTag("EnemyBase");
+    void Start ()
+    {
         navAgent = GetComponent<NavMeshAgent>();
         follow = false;
 	}
 	
-	void Update () {
+	void Update ()
+    {
         if (follow == true)
         {
             float distance = (player.transform.position - transform.position).magnitude;
