@@ -13,9 +13,14 @@ public class GameManager : MonoBehaviour {
     public GameObject playerSpawn;
     public GameObject enemySpawn;
 
+    public GameObject highScoresPanel;
     public HighScores highScores;
+    public Text highScoresText;
     public Text messageText;
     public Text timerText;
+    public Button newGameButton;
+    public Button highScoresButton;
+    public Button backButton;
 
     public enum GameState
     {
@@ -42,12 +47,18 @@ public class GameManager : MonoBehaviour {
                 Cursor.visible = true;
                 aimIndicator.gameObject.SetActive(false);
                 timerText.gameObject.SetActive(false);
+                highScoresPanel.gameObject.SetActive(false);
+                highScoresButton.gameObject.SetActive(false);
+                newGameButton.gameObject.SetActive(false);
+                backButton.gameObject.SetActive(false);
                 messageText.text = "Get Ready";
 
                 if (Input.GetKeyUp(KeyCode.Mouse0) == true)
                 {
                     foreach (GameObject tank in tanks)
+                    {
                         tank.SetActive(true);
+                    }
 
                     Cursor.visible = false;
                     aimIndicator.gameObject.SetActive(true);
@@ -75,6 +86,8 @@ public class GameManager : MonoBehaviour {
                     Cursor.visible = true;
                     aimIndicator.gameObject.SetActive(false);
                     timerText.gameObject.SetActive(false);
+                    highScoresButton.gameObject.SetActive(true);
+                    newGameButton.gameObject.SetActive(true);
 
                     if (IsPlayerDead() == true)
                     {
@@ -101,17 +114,6 @@ public class GameManager : MonoBehaviour {
                 break;
 
             case GameState.GameOver:
-                if (Input.GetKeyUp(KeyCode.Mouse0) == true)
-                {
-                    gameTime = 0;
-                    messageText.text = "";
-                    timerText.gameObject.SetActive(true);
-                    aimIndicator.gameObject.SetActive(true);
-                    Cursor.visible = false;
-
-                    Reset();
-                    gameState = GameState.Game;
-                }
                 break;
         }
 
@@ -119,7 +121,7 @@ public class GameManager : MonoBehaviour {
             Application.Quit();
 	}
 
-    private void Reset() //Resets every tank position and sets them as active.
+    private void ResetTanks() //Resets every tank position and sets them as active, resets health.
     {
         foreach (GameObject tank in tanks)
         {
@@ -134,7 +136,49 @@ public class GameManager : MonoBehaviour {
                 tank.transform.rotation = enemySpawn.transform.rotation;
             }
             tank.SetActive(true);
+
+            TankHealth health = tank.GetComponent<TankHealth>();
+            health.Initialise();
         }
+    }
+
+    public void OnNewGame()
+    {
+        ResetTanks();
+        gameTime = 0;
+        messageText.text = "";
+        aimIndicator.gameObject.SetActive(true);
+        timerText.gameObject.SetActive(true);
+        highScoresButton.gameObject.SetActive(false);
+        newGameButton.gameObject.SetActive(false);
+        Cursor.visible = false;
+        gameState = GameState.Game;
+    }
+
+    public void OnHighScores()
+    {
+        messageText.gameObject.SetActive(false);
+        highScoresButton.gameObject.SetActive(false);
+        newGameButton.gameObject.SetActive(false);
+        backButton.gameObject.SetActive(true);
+        highScoresPanel.SetActive(true);
+
+        string text = "";
+        for (int i = 0; i < highScores.scores.Length; i++)
+        {
+            int seconds = highScores.scores[i];
+            text += string.Format("{0:D2}:{1:D2}\n", (seconds / 60), (seconds % 60));
+        }
+        highScoresText.text = text;
+    }
+
+    public void OnBackButton()
+    {
+        highScoresPanel.gameObject.SetActive(false);
+        backButton.gameObject.SetActive(false);
+        newGameButton.gameObject.SetActive(true);
+        highScoresButton.gameObject.SetActive(true);
+        messageText.gameObject.SetActive(true);
     }
 
     private bool OneTankLeft() //If only one tank remains, returns true.

@@ -26,9 +26,9 @@ public class Bullet : MonoBehaviour {
         }
 
         TankHealth health = other.gameObject.GetComponent<TankHealth>();
-        if (health!= null)
+        if (health != null)
         {
-            float damage = CalculateDamage(targetRigidbody.position);
+            //float damage = CalculateDamage(targetRigidbody.position);
             health.TakeDamage(maxDamage);
         }
 
