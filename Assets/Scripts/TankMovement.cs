@@ -11,12 +11,12 @@ public class TankMovement : MonoBehaviour {
     private float movementInput;
     private float turnInput;
 
-	void Awake ()
+	void Awake()
     {
 		rigid = GetComponent<Rigidbody>();
 	}
 
-    private void OnEnable ()
+    private void OnEnable()
     {
         rigid.isKinematic = false;
         movementInput = 0;
@@ -28,7 +28,7 @@ public class TankMovement : MonoBehaviour {
         rigid.isKinematic = true;
     }
 
-    void Update ()
+    void Update()
     {
         movementInput = Input.GetAxis("Vertical");
         turnInput = Input.GetAxis("Horizontal");

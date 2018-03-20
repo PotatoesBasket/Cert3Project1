@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
     private float gameTime = 0;
     public float GameTime { get { return gameTime; } }
 
+    public CameraSwitch cameraSwitch;
+
     public GameObject[] tanks;
     public GameObject aimIndicator;
     public GameObject playerSpawn;
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour {
                     tank.SetActive(false);
 
                 Cursor.visible = true;
+                cameraSwitch.GameCameraOff();
                 aimIndicator.gameObject.SetActive(false);
                 timerText.gameObject.SetActive(false);
                 highScoresPanel.gameObject.SetActive(false);
@@ -61,6 +64,7 @@ public class GameManager : MonoBehaviour {
                     }
 
                     Cursor.visible = false;
+                    cameraSwitch.GameCameraOn();
                     aimIndicator.gameObject.SetActive(true);
                     timerText.gameObject.SetActive(true);
                     messageText.text = "";
@@ -84,6 +88,7 @@ public class GameManager : MonoBehaviour {
                 if (isGameOver == true)
                 {
                     Cursor.visible = true;
+                    cameraSwitch.GameCameraOff();
                     aimIndicator.gameObject.SetActive(false);
                     timerText.gameObject.SetActive(false);
                     highScoresButton.gameObject.SetActive(true);
@@ -151,6 +156,7 @@ public class GameManager : MonoBehaviour {
         timerText.gameObject.SetActive(true);
         highScoresButton.gameObject.SetActive(false);
         newGameButton.gameObject.SetActive(false);
+        cameraSwitch.GameCameraOn();
         Cursor.visible = false;
         gameState = GameState.Game;
     }
@@ -185,30 +191,24 @@ public class GameManager : MonoBehaviour {
     {
         int numberOfTanks = 0;
 
-        foreach (GameObject tank in tanks)
+        foreach(GameObject tank in tanks)
         {
-            if (tank.activeSelf == true)
-            {
+            if(tank.activeSelf == true)
                 numberOfTanks++;
-            }
         }
-
-        return (numberOfTanks <= 1);
+        return(numberOfTanks <= 1);
     }
 
     private bool IsPlayerDead() //Checks for inactive tanks, returns true if it's the player tank.
     {
-        foreach (GameObject tank in tanks)
+        foreach(GameObject tank in tanks)
         {
-            if (tank.activeSelf == false)
+            if(tank.activeSelf == false)
             {
-                if (tank.tag == "Player")
-                {
+                if(tank.tag == "Player")
                     return true;
-                }
             }
         }
-
         return false;
     }
 }

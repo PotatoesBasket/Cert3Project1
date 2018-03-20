@@ -2412,6 +2412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99bfcee5a4ff12840a55ebc2adfc72cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraSwitch: {fileID: 798748477}
   tanks:
   - {fileID: 1304580076}
   - {fileID: 872373996}
@@ -2476,9 +2477,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2321ab578ec2a244cb581c8647b43ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuCamera: {fileID: 1293137139}
-  gameCamera: {fileID: 1353891056}
-  player: {fileID: 1304580076}
+  menuCamera: {fileID: 1293137136}
+  gameCamera: {fileID: 1353891052}
 --- !u!1 &822975514
 GameObject:
   m_ObjectHideFlags: 0
@@ -4148,9 +4148,11 @@ GameObject:
   - component: {fileID: 1293137139}
   - component: {fileID: 1293137138}
   - component: {fileID: 1293137137}
+  - component: {fileID: 1293137141}
+  - component: {fileID: 1293137142}
   m_Layer: 0
   m_Name: Menu Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4218,6 +4220,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
+--- !u!114 &1293137141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1293137136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef0b32a5a0f5e4e179cb98a8bdd4a297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  y: -0.47
+  u: 8.94
+  v: 4.02
+--- !u!114 &1293137142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1293137136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59700678e0092463cb106a3995cd22a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scanlineIntensity: 71.53
+  scanlineWidth: 2
 --- !u!1 &1304580076
 GameObject:
   m_ObjectHideFlags: 0
@@ -4506,7 +4535,7 @@ GameObject:
   - component: {fileID: 1353891058}
   - component: {fileID: 1353891057}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Game Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class CameraSwitch : MonoBehaviour {
 
-    public Camera menuCamera;
-    public Camera gameCamera;
-    public GameObject player;
+    public GameObject menuCamera;
+    public GameObject gameCamera;
 
     private void Start()
     {
-        menuCamera.enabled = true;
-        gameCamera.enabled = false;
+        menuCamera.gameObject.SetActive(true);
+        gameCamera.gameObject.SetActive(false);
     }
 
-    private void Update()
+    public void GameCameraOff()
     {
-        if (player == null)
-        {
-            menuCamera.enabled = !menuCamera.enabled;
-            gameCamera.enabled = !gameCamera.enabled;
-        }
+        menuCamera.gameObject.SetActive(true);
+        gameCamera.gameObject.SetActive(false);
+    }
+
+    public void GameCameraOn()
+    {
+        menuCamera.gameObject.SetActive(false);
+        gameCamera.gameObject.SetActive(true);
     }
 }

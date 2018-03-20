@@ -15,15 +15,15 @@ public class EnemyMovement : MonoBehaviour {
     public GameObject[] waypoints;
     private int currentWaypoint = 0;
 
-    void Start ()
+    void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();
         follow = false;
 	}
 	
-	void Update ()
+	void Update()
     {
-        if (follow == true)
+        if(follow == true)
         {
             float distance = (player.transform.position - transform.position).magnitude;
 
@@ -44,17 +44,17 @@ public class EnemyMovement : MonoBehaviour {
         }
         else
         {
-            if (navAgent.remainingDistance < 0.1f)
+            if(navAgent.remainingDistance < 0.1f)
             {
-                if (waypoints != null)
+                if(waypoints != null)
                 {
                     currentWaypoint += 1;
-                    if (currentWaypoint >= waypoints.Length)
+                    if(currentWaypoint >= waypoints.Length)
                     {
                         currentWaypoint = 0;
                     }
 
-                    if (waypoints[currentWaypoint] != null)
+                    if(waypoints[currentWaypoint] != null)
                     {
                         GameObject nextWaypoint = waypoints[currentWaypoint];
                         navAgent.SetDestination(nextWaypoint.transform.position);
@@ -75,12 +75,12 @@ public class EnemyMovement : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag.Equals("Player") == true)
+        if(other.tag.Equals("Player") == true)
         {
             follow = false;
             navAgent.isStopped = true;
 
-            if (waypoints != null && waypoints[currentWaypoint] != null)
+            if(waypoints != null && waypoints[currentWaypoint] != null)
             {
                 GameObject nextWaypoint = waypoints[currentWaypoint];
                 navAgent.isStopped = false;
