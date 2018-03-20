@@ -16,7 +16,7 @@ public class TankHealth : MonoBehaviour {
         Initialise();
     }
 
-    public void Initialise() //Resets tank health, sets isDead false, deactivates explosion.
+    public void Initialise() //Resets tank health, sets isDead false, clones an explosion and deactivates it.
     {
         currentHealth = startHealth;
         isDead = false;
