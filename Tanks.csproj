@@ -297,6 +297,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Downloads\Arkham Interactive\Toony\Skies\Scripts\Levelloader.cs" />
+    <Compile Include="Assets\Downloads\Arkham Interactive\Toony\Skies\Scripts\MouseLook.cs" />
     <Compile Include="Assets\Downloads\Realistic Glitches Lite\Assets\Scripts\BWEffect.cs" />
     <Compile Include="Assets\Downloads\Realistic Glitches Lite\Assets\Scripts\DiyEffect__FullOnly.cs" />
     <Compile Include="Assets\Downloads\Realistic Glitches Lite\Assets\Scripts\ShaderEffect_BleedingColors.cs" />

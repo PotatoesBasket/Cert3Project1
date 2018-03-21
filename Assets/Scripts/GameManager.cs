@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour {
         gameState = GameState.Start;
     }
 	
-	void Update ()
+	void Update()
     {
 		switch(gameState)
         {

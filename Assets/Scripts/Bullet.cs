@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour {
 
     public ParticleSystem explosionParticles;
 
-	void Start ()
+	void Start()
     {
         Destroy(gameObject, maxLifeTime);
 	}
