@@ -294,8 +294,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Downloads\Realistic Glitches Lite\Assets\Scripts\BWEffect.cs" />
+    <Compile Include="Assets\Downloads\Realistic Glitches Lite\Assets\Scripts\DiyEffect__FullOnly.cs" />
+    <Compile Include="Assets\Downloads\Realistic Glitches Lite\Assets\Scripts\ShaderEffect_BleedingColors.cs" />
+    <Compile Include="Assets\Downloads\Realistic Glitches Lite\Assets\Scripts\ShaderEffect_CorruptedVram.cs" />
+    <Compile Include="Assets\Downloads\Realistic Glitches Lite\Assets\Scripts\ShaderEffect_CRT.cs" />
+    <Compile Include="Assets\Downloads\Realistic Glitches Lite\Assets\Scripts\ShaderEffect_Scanner.cs" />
+    <Compile Include="Assets\Downloads\Realistic Glitches Lite\Assets\Scripts\ShaderEffect_Tint.cs" />
+    <Compile Include="Assets\Downloads\Realistic Glitches Lite\Assets\Scripts\ShaderEffect_Unsync.cs" />
+    <Compile Include="Assets\Downloads\Realistic Glitches Lite\Assets\Scripts\ShaderToTexture.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraControl.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraSwitch.cs" />
     <Compile Include="Assets\Scripts\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\EnemyTankShooting.cs" />
     <Compile Include="Assets\Scripts\File IO\HighScores.cs" />
@@ -306,7 +316,15 @@
     <Compile Include="Assets\Scripts\TankShooting.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Models\Kenney Assets\Castle Kit\License.txt" />
+    <None Include="Assets\Downloads\OrigamiCrane\Origami.shader" />
+    <None Include="Assets\Downloads\Realistic Glitches Lite\Assets\Shaders\BWDiffuse.shader" />
+    <None Include="Assets\Downloads\Realistic Glitches Lite\Assets\Shaders\BleedingColors.shader" />
+    <None Include="Assets\Downloads\Realistic Glitches Lite\Assets\Shaders\Distortion.shader" />
+    <None Include="Assets\Downloads\Realistic Glitches Lite\Assets\Shaders\Distortion2D__FullOnly.shader" />
+    <None Include="Assets\Downloads\Realistic Glitches Lite\Assets\Shaders\Scanlines.shader" />
+    <None Include="Assets\Downloads\Realistic Glitches Lite\Assets\Shaders\Shift.shader" />
+    <None Include="Assets\Downloads\Realistic Glitches Lite\Assets\Shaders\Tint.shader" />
+    <None Include="Assets\Downloads\Realistic Glitches Lite\Assets\Shaders\VUnsync.shader" />
     <None Include="Assets\highscores.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
