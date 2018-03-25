@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour {
 
-    public float dampTime = 0.2f;
-    public Transform target;
-    private Vector3 moveVelocity;
+
     private Vector3 desiredPosition;
+    private float rotateTimer;
+    private float gameTime;
+
+    public float GameTime { get { return gameTime; } }
 
     private void Awake()
     {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private void FixedUpdate()
@@ -21,7 +22,11 @@ public class CameraControl : MonoBehaviour {
 
     private void Move()
     {
-        desiredPosition = target.position;
-        transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref moveVelocity, dampTime);
+        rotateTimer += gameTime;
+        if (rotateTimer > 360)
+            rotateTimer = 0;
+
+        desiredPosition = new Vector3(0, rotateTimer, 0);
+        transform.position += desiredPosition;
     }
 }
