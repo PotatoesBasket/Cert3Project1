@@ -10,24 +10,23 @@ public class GameManager : MonoBehaviour {
 
     public CameraSwitch cameraSwitch;
 
-    public GameObject[] tanks;
     public GameObject aimIndicator;
+    public GameObject playerTank;
+    public GameObject[] enemyTanks;
     public GameObject playerSpawn;
-    public GameObject enemySpawn;
+    public GameObject[] sceneryProps;
 
-    public GameObject highScoresPanel;
     public HighScores highScores;
+    public GameObject highScoresPanel;
+    public GameObject gameOverPanel;
     public Text highScoresText;
     public Text messageText;
     public Text timerText;
-    public Button newGameButton;
-    public Button highScoresButton;
-    public Button backButton;
 
     public enum GameState
     {
-        Start,
-        Game,
+        TitleScreen,
+        PlayingGame,
         GameOver
     }
     private GameState gameState;
@@ -35,33 +34,31 @@ public class GameManager : MonoBehaviour {
 
     private void Awake()
     {
-        gameState = GameState.Start;
+        gameState = GameState.TitleScreen;
     }
-	
-	void Update()
+
+    void Update()
     {
 		switch(gameState)
         {
-            case GameState.Start:
-                foreach (GameObject tank in tanks)
-                    tank.SetActive(false);
+            case GameState.TitleScreen:
+                foreach (GameObject enemy in enemyTanks)
+                    enemy.SetActive(false);
+                playerTank.SetActive(false);
 
                 Cursor.visible = true;
                 cameraSwitch.GameCameraOff();
                 aimIndicator.gameObject.SetActive(false);
                 timerText.gameObject.SetActive(false);
                 highScoresPanel.gameObject.SetActive(false);
-                highScoresButton.gameObject.SetActive(false);
-                newGameButton.gameObject.SetActive(false);
-                backButton.gameObject.SetActive(false);
+                gameOverPanel.gameObject.SetActive(false);
                 messageText.text = "Get Ready";
 
                 if (Input.GetKeyUp(KeyCode.Mouse0) == true)
                 {
-                    foreach (GameObject tank in tanks)
-                    {
-                        tank.SetActive(true);
-                    }
+                    foreach (GameObject enemy in enemyTanks)
+                        enemy.SetActive(true);
+                    playerTank.SetActive(true);
 
                     Cursor.visible = false;
                     cameraSwitch.GameCameraOn();
@@ -69,18 +66,18 @@ public class GameManager : MonoBehaviour {
                     timerText.gameObject.SetActive(true);
                     messageText.text = "";
 
-                    gameState = GameState.Game;
+                    gameState = GameState.PlayingGame;
                 }
                 break;
 
-            case GameState.Game:
-                bool isGameOver = false;
+            case GameState.PlayingGame:
 
                 gameTime += Time.deltaTime;
                 int seconds = Mathf.RoundToInt(gameTime);
                 timerText.text = string.Format("{0:D2}:{1:D2}", (seconds / 60), (seconds % 60));
 
-                if (OneTankLeft() == true)
+                bool isGameOver = false;
+                if (NoEnemiesLeft() == true)
                     isGameOver = true;
                 else if (IsPlayerDead() == true)
                     isGameOver = true;
@@ -90,9 +87,8 @@ public class GameManager : MonoBehaviour {
                     Cursor.visible = true;
                     cameraSwitch.GameCameraOff();
                     aimIndicator.gameObject.SetActive(false);
+                    gameOverPanel.gameObject.SetActive(true);
                     timerText.gameObject.SetActive(false);
-                    highScoresButton.gameObject.SetActive(true);
-                    newGameButton.gameObject.SetActive(true);
 
                     if (IsPlayerDead() == true)
                     {
@@ -109,16 +105,19 @@ public class GameManager : MonoBehaviour {
                     gameState = GameState.GameOver;
                 }
 
-                //DEBUG TOOL
+                //DEBUG TOOL////////////////////////////////////////////////
                 if (Input.GetKeyUp(KeyCode.P) == true)
                 {
                     highScores.AddScore(Mathf.RoundToInt(gameTime));
                     highScores.SaveScoresToFile();
                 }
-
+                ////////////////////////////////////////////////////////////
                 break;
 
             case GameState.GameOver:
+                playerTank.SetActive(false);
+                foreach (GameObject enemy in enemyTanks)
+                    enemy.SetActive(false);
                 break;
         }
 
@@ -126,47 +125,50 @@ public class GameManager : MonoBehaviour {
             Application.Quit();
 	}
 
-    private void ResetTanks() //Resets every tank position and sets them as active, resets health.
+    private void ResetStage() //Resets moveable objects' transforms, reactivates tanks and health.
     {
-        foreach (GameObject tank in tanks)
-        {
-            if (tank.tag == "Player")
-            {
-                tank.transform.position = playerSpawn.transform.position;
-                tank.transform.rotation = playerSpawn.transform.rotation;
-            }
-            else
-            {
-                tank.transform.position = enemySpawn.transform.position;
-                tank.transform.rotation = enemySpawn.transform.rotation;
-            }
-            tank.SetActive(true);
+        playerTank.transform.position = playerSpawn.transform.position;
+        playerTank.transform.rotation = playerSpawn.transform.rotation;
 
-            TankHealth health = tank.GetComponent<TankHealth>();
-            health.Initialise();
+        playerTank.SetActive(true);
+
+        TankHealth playerHealth = playerTank.GetComponent<TankHealth>();
+        playerHealth.Initialise();
+
+        foreach (GameObject enemy in enemyTanks)
+        {
+            enemy.transform.localPosition = Vector3.zero;
+            enemy.transform.localRotation = Quaternion.identity;
+            TankHealth enemyHealth = enemy.GetComponent<TankHealth>();
+            enemyHealth.Initialise();
+            enemy.SetActive(true);
+        }
+
+        foreach (GameObject prop in sceneryProps)
+        {
+            prop.transform.localPosition = Vector3.zero;
+            prop.transform.localRotation = Quaternion.identity;
         }
     }
 
+    //BUTTONS///////////////////////////////////////////////////
     public void OnNewGame()
     {
-        ResetTanks();
+        ResetStage();
         gameTime = 0;
         messageText.text = "";
         aimIndicator.gameObject.SetActive(true);
         timerText.gameObject.SetActive(true);
-        highScoresButton.gameObject.SetActive(false);
-        newGameButton.gameObject.SetActive(false);
+        gameOverPanel.gameObject.SetActive(false);
         cameraSwitch.GameCameraOn();
         Cursor.visible = false;
-        gameState = GameState.Game;
+        gameState = GameState.PlayingGame;
     }
 
     public void OnHighScores()
     {
         messageText.gameObject.SetActive(false);
-        highScoresButton.gameObject.SetActive(false);
-        newGameButton.gameObject.SetActive(false);
-        backButton.gameObject.SetActive(true);
+        gameOverPanel.gameObject.SetActive(false);
         highScoresPanel.SetActive(true);
 
         string text = "";
@@ -181,34 +183,29 @@ public class GameManager : MonoBehaviour {
     public void OnBackButton()
     {
         highScoresPanel.gameObject.SetActive(false);
-        backButton.gameObject.SetActive(false);
-        newGameButton.gameObject.SetActive(true);
-        highScoresButton.gameObject.SetActive(true);
+        gameOverPanel.gameObject.SetActive(true);
         messageText.gameObject.SetActive(true);
     }
 
-    private bool OneTankLeft() //If only one tank remains, returns true.
+    //WIN CONDITIONS////////////////////////////////////////////
+    private bool NoEnemiesLeft() //Returns true if all enemy tanks are inactive.
     {
         int numberOfTanks = 0;
 
-        foreach(GameObject tank in tanks)
+        foreach (GameObject tank in enemyTanks)
         {
-            if(tank.activeSelf == true)
+            if (tank.activeSelf == true)
                 numberOfTanks++;
         }
-        return(numberOfTanks <= 1);
+
+        return (numberOfTanks == 0);
     }
 
-    private bool IsPlayerDead() //Checks for inactive tanks, returns true if it's the player tank.
+    private bool IsPlayerDead() //Returns true if player tank is inactive.
     {
-        foreach(GameObject tank in tanks)
-        {
-            if(tank.activeSelf == false)
-            {
-                if(tank.tag == "Player")
-                    return true;
-            }
-        }
+        if (playerTank.activeSelf == false)
+            return true;
+
         return false;
     }
 }

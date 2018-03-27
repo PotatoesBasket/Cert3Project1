@@ -23,7 +23,13 @@ public class EnemyMovement : MonoBehaviour {
 	
 	void Update()
     {
-        if(follow == true)
+        if (player != null)
+        {
+            if (player.activeSelf == false)
+                follow = false;
+        }
+
+        if (follow == true)
         {
             float distance = (player.transform.position - transform.position).magnitude;
 
@@ -44,7 +50,7 @@ public class EnemyMovement : MonoBehaviour {
         }
         else
         {
-            if(navAgent.remainingDistance < 0.1f)
+            if(navAgent.remainingDistance < 2f)
             {
                 if(waypoints != null)
                 {
@@ -78,12 +84,11 @@ public class EnemyMovement : MonoBehaviour {
         if(other.tag.Equals("Player") == true)
         {
             follow = false;
-            navAgent.isStopped = true;
+            navAgent.isStopped = false;
 
             if(waypoints != null && waypoints[currentWaypoint] != null)
             {
                 GameObject nextWaypoint = waypoints[currentWaypoint];
-                navAgent.isStopped = false;
                 navAgent.SetDestination(nextWaypoint.transform.position);
             }
         }

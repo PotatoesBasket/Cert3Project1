@@ -28,8 +28,8 @@ public class Bullet : MonoBehaviour {
         TankHealth health = other.gameObject.GetComponent<TankHealth>();
         if (health != null)
         {
-            //float damage = CalculateDamage(targetRigidbody.position);
-            health.TakeDamage(maxDamage);
+            float damage = CalculateDamage(targetRigidbody.position);
+            health.TakeDamage(damage);
         }
 
         explosionParticles.transform.parent = null;
@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    private float CalculateDamage(Vector3 targetPosition) //Returns calculated damage as a float.
+    private float CalculateDamage(Vector3 targetPosition) //Calculates damage relative to target posistion, returns as a float.
     {
         Vector3 explosionToTarget = targetPosition - transform.position;
 

@@ -4,22 +4,21 @@ using UnityEngine;
 
 public class TankAim : MonoBehaviour {
 
-    LayerMask m_LayerMask;
-
+    LayerMask layerMask;
     public GameObject aimIndicator;
 
-	void Start ()
+	void Start()
     {
-        m_LayerMask = LayerMask.GetMask("Ground");
+        layerMask = LayerMask.GetMask("Ground");
 	}
 	
-	void Update ()
+	void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, m_LayerMask))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
             Vector3 lookat = hit.point;
             lookat.y = transform.position.y;

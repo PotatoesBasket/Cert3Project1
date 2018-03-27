@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TankMovement : MonoBehaviour {
 
-    public float speed = 12.0f;
+    public float speed = 20.0f;
     public float turnSpeed = 100.0f;
 
     private Rigidbody rigid;

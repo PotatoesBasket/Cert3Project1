@@ -45,4 +45,12 @@ public class TankHealth : MonoBehaviour {
 
         gameObject.SetActive(false);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "DeathPlane")
+        {
+            OnDeath();
+        }
+    }
 }

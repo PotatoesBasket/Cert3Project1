@@ -5,23 +5,25 @@ using UnityEngine;
 public class EnemyTankShooting : MonoBehaviour {
 
     public GameObject shellPrefab;
+    public GameObject player;
     public Transform fireTransform;
     public float launchForce = 30f;
     public float shootDelay = 1f;
     private bool canShoot;
     private float shootTimer;
 
-    private void Awake()
+    private void Awake ()
     {
         canShoot = false;
     }
-
-    // Use this for initialization
-    void Start () {
-	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        if (player.activeSelf == false)
+        {
+            canShoot = false;
+        }
+
         if (canShoot == true)
         {
             shootTimer -= Time.deltaTime;
