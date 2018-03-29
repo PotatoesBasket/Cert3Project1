@@ -8,7 +8,7 @@ public class EnemyTankShooting : MonoBehaviour {
     public GameObject player;
     public Transform fireTransform;
     public float launchForce = 30f;
-    public float shootDelay = 1f;
+    public float shootDelay = 0.8f;
     private bool canShoot;
     private float shootTimer;
 

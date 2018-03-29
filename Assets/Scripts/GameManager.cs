@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
     public GameObject[] sceneryProps;
 
     public HighScores highScores;
+    public GameObject titlePanel;
     public GameObject highScoresPanel;
     public GameObject gameOverPanel;
     public Text highScoresText;
@@ -47,27 +48,15 @@ public class GameManager : MonoBehaviour {
                 playerTank.SetActive(false);
 
                 Cursor.visible = true;
+                aimIndicator.SetActive(false);
                 cameraSwitch.GameCameraOff();
-                aimIndicator.gameObject.SetActive(false);
+
+                titlePanel.SetActive(true);
+                highScoresPanel.SetActive(false);
+                gameOverPanel.SetActive(false);
+
+                messageText.gameObject.SetActive(false);
                 timerText.gameObject.SetActive(false);
-                highScoresPanel.gameObject.SetActive(false);
-                gameOverPanel.gameObject.SetActive(false);
-                messageText.text = "Get Ready";
-
-                if (Input.GetKeyUp(KeyCode.Mouse0) == true)
-                {
-                    foreach (GameObject enemy in enemyTanks)
-                        enemy.SetActive(true);
-                    playerTank.SetActive(true);
-
-                    Cursor.visible = false;
-                    cameraSwitch.GameCameraOn();
-                    aimIndicator.gameObject.SetActive(true);
-                    timerText.gameObject.SetActive(true);
-                    messageText.text = "";
-
-                    gameState = GameState.PlayingGame;
-                }
                 break;
 
             case GameState.PlayingGame:
@@ -85,9 +74,10 @@ public class GameManager : MonoBehaviour {
                 if (isGameOver == true)
                 {
                     Cursor.visible = true;
+                    aimIndicator.SetActive(false);
                     cameraSwitch.GameCameraOff();
-                    aimIndicator.gameObject.SetActive(false);
-                    gameOverPanel.gameObject.SetActive(true);
+                    gameOverPanel.SetActive(true);
+                    messageText.gameObject.SetActive(true);
                     timerText.gameObject.SetActive(false);
 
                     if (IsPlayerDead() == true)
@@ -152,23 +142,50 @@ public class GameManager : MonoBehaviour {
     }
 
     //BUTTONS///////////////////////////////////////////////////
-    public void OnNewGame()
+    public void OnStart()
     {
         ResetStage();
         gameTime = 0;
         messageText.text = "";
         aimIndicator.gameObject.SetActive(true);
         timerText.gameObject.SetActive(true);
+        titlePanel.SetActive(false);
         gameOverPanel.gameObject.SetActive(false);
         cameraSwitch.GameCameraOn();
         Cursor.visible = false;
         gameState = GameState.PlayingGame;
     }
 
+    public void OnExit()
+    {
+        Application.Quit();
+    }
+
+    public void OnReturnToTitle()
+    {
+        Cursor.visible = true;
+        aimIndicator.SetActive(false);
+        cameraSwitch.GameCameraOff();
+
+        titlePanel.SetActive(true);
+        highScoresPanel.SetActive(false);
+        gameOverPanel.SetActive(false);
+
+        messageText.gameObject.SetActive(false);
+        timerText.gameObject.SetActive(false);
+
+        foreach (GameObject enemy in enemyTanks)
+            enemy.SetActive(false);
+        playerTank.SetActive(false);
+
+        gameState = GameState.TitleScreen;
+    }
+
     public void OnHighScores()
     {
         messageText.gameObject.SetActive(false);
-        gameOverPanel.gameObject.SetActive(false);
+        titlePanel.SetActive(false);
+        gameOverPanel.SetActive(false);
         highScoresPanel.SetActive(true);
 
         string text = "";
@@ -192,9 +209,9 @@ public class GameManager : MonoBehaviour {
     {
         int numberOfTanks = 0;
 
-        foreach (GameObject tank in enemyTanks)
+        foreach (GameObject enemy in enemyTanks)
         {
-            if (tank.activeSelf == true)
+            if (enemy.activeSelf == true)
                 numberOfTanks++;
         }
 

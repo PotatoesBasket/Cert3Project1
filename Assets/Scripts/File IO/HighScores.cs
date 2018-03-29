@@ -5,7 +5,7 @@ using System.IO;
 
 public class HighScores : MonoBehaviour {
 
-    public int[] scores = new int[10];
+    public int[] scores = new int[] { 999, 999, 999, 999, 999, 999, 999, 999, 999, 999 };
 
     string currentDirectory;
     public string scoreFileName = "highscores.txt";
@@ -18,17 +18,12 @@ public class HighScores : MonoBehaviour {
         LoadScoresFromFile();
 	}
 	
-	void Update ()
-    {
-		
-	}
-
     //checks file exists, gets scores from score file
     public void LoadScoresFromFile()
     {
         bool fileExists = File.Exists(currentDirectory + "\\" + scoreFileName);
 
-        if(fileExists == true)
+        if (fileExists == true)
             Debug.Log("Found high score file " + scoreFileName);
         else
         {
@@ -81,7 +76,7 @@ public class HighScores : MonoBehaviour {
 
         for (int i = 0; i < scores.Length; i++)
         {
-            if (scores[i] < newScore || scores[i] == 0)
+            if (scores[i] > newScore || scores[i] == 0)
             {
                 desiredIndex = i;
                 break;

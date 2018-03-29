@@ -72,7 +72,7 @@ public class EnemyMovement : MonoBehaviour {
 
     public void OnTriggerEnter(Collider other)
     {
-        if(other.tag.Equals("Player") == true)
+        if (other.tag.Equals("Player") == true)
         {
             player = other.gameObject;
             follow = true;
@@ -81,12 +81,12 @@ public class EnemyMovement : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag.Equals("Player") == true)
+        if (other.tag.Equals("Player") == true)
         {
             follow = false;
             navAgent.isStopped = false;
 
-            if(waypoints != null && waypoints[currentWaypoint] != null)
+            if (waypoints != null && waypoints[currentWaypoint] != null)
             {
                 GameObject nextWaypoint = waypoints[currentWaypoint];
                 navAgent.SetDestination(nextWaypoint.transform.position);
